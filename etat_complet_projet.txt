@@ -1,0 +1,87 @@
+# RAPPORT D'ÉTAT TECHNIQUE COMPLET - FICHEPRO BÉNIN
+Date : 23 Mai 2026
+
+## 1. TECHNOLOGIES UTILISÉES (FRONTEND)
+Le frontend est construit avec une stack moderne, performante et typée pour garantir la robustesse.
+- Langage principal : TypeScript (6.0+) - Pour un code sécurisé et auto-documenté.
+- Framework : React 19 - Utilisation des Hooks et de la structure de composants.
+- Tooling : Vite 8 - Pour des builds ultra-rapides et un développement fluide.
+- Styling : Tailwind CSS 4 - Pour un design "Utility-First" hautement personnalisable et léger.
+- Icônes : Lucide React - Bibliothèque d'icônes vectorielles cohérente.
+- Gestion du Routage : React Router 7 - Navigation fluide entre les pages.
+- IA Générative : SDK Google Generative AI (Gemini Pro) - Pour la rédaction des fiches.
+- Export Document : jsPDF - Pour la génération des fichiers PDF côté client.
+- PWA (Progressive Web App) : Vite Plugin PWA - Prêt pour une installation sur mobile comme une application native.
+
+---
+
+## 2. ÉTAT ACTUEL DU FRONTEND (DÉVELOPPÉ)
+Le frontend est actuellement fonctionnel en mode "Client-Side Only" (les données sont stockées localement dans le navigateur).
+
+### Pages Implémentées :
+- Landing Page : Présentation marketing complète, mockup animé de l'application, sections fonctionnalités et statistiques.
+- Authentification : Pages Login (Connexion) et Register (Inscription) avec design moderne.
+- Dashboard : Vue d'ensemble des fiches récentes, statistiques rapides et accès facile aux actions.
+- Studio de Génération : Formulaire complet (Niveaux CP à CM2, Matières MEMP), intégration avec l'IA Gemini pour générer le contenu des cours et les exercices.
+- Bibliothèque : Liste de toutes les fiches enregistrées avec recherche et filtres.
+- Profil : Gestion des informations de l'utilisateur (statique).
+
+### Fonctionnalités Clés Actives :
+- Génération IA : Création de fiches pédagogiques détaillées via Gemini Pro.
+- Éditeur de contenu : Zone de texte riche pour modifier les fiches générées.
+- Générateur d'exercices : Bouton dédié pour ajouter des exercices basés sur le cours.
+- Export PDF : Téléchargement immédiat de la fiche au format PDF.
+- Partage WhatsApp : Lien direct pour envoyer le texte de la fiche.
+- Persistance locale : Sauvegarde automatique des fiches dans le LocalStorage.
+
+---
+
+## 3. BACKEND À IMPLÉMENTER
+Le passage à une architecture Client-Serveur est nécessaire pour la mise en production.
+
+### Langage recommandé : Node.js (Express/FastAPI) ou Python (FastAPI).
+
+### Modules à développer :
+- Auth API : Gestion de l'authentification sécurisée (JWT).
+- OTP Service : Intégration SMS (ex: Twilio ou provider local) pour la connexion par numéro de téléphone.
+- Sheets API : CRUD complet (Créer, Lire, Mettre à jour, Supprimer) pour les fiches sur le serveur.
+- AI Proxy : Sécurisation de la clé API Gemini côté serveur (ne plus l'exposer dans le frontend).
+- Payment API : Intégration de FedaPay ou CinetPay pour les abonnements Mobile Money (MTN/Moov).
+- Export Service : Optionnel - Génération de PDF côté serveur pour des rendus plus complexes.
+
+---
+
+## 4. BASE DE DONNÉES (STRUCTURE À PRÉVOIR)
+Une base de données relationnelle (PostgreSQL recommandé) est idéale.
+
+### Tables principales :
+- Users :
+    * id (UUID)
+    * phone_number (Unique)
+    * full_name
+    * school_name
+    * subscription_status (active, expired)
+    * created_at
+- Lesson_Sheets :
+    * id (UUID)
+    * user_id (FK -> Users)
+    * level (CP1, CM2, etc.)
+    * subject (Maths, Français, etc.)
+    * topic (Titre du cours)
+    * content (Text/JSON du contenu généré)
+    * exercises (Text/JSON)
+    * updated_at
+- Payments :
+    * id (UUID)
+    * user_id (FK -> Users)
+    * transaction_id (FedaPay)
+    * amount
+    * status (pending, success, failed)
+    * timestamp
+
+---
+
+## 5. PROCHAINES ÉTAPES PRIORITAIRES
+1. Migration du stockage local (LocalStorage) vers une base de données réelle.
+2. Sécurisation du flux de génération IA via le backend.
+3. Implémentation du système d'abonnement pour monétiser la plateforme.

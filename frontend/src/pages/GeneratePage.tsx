@@ -254,15 +254,39 @@ export default function GeneratePage() {
         {/* Main Content: Preview */}
         <main className="flex-1 overflow-y-auto p-4 md:p-12">
           {!result && !loading ? (
-            <div className="h-full flex flex-col items-center justify-center text-center space-y-6 max-w-md mx-auto">
-              <div className="w-24 h-24 bg-blue-50 rounded-[2.5rem] flex items-center justify-center text-blue-600">
-                <Wand2 className="h-10 w-10" />
+            <div className="h-full flex flex-col items-center justify-center text-center space-y-12 max-w-2xl mx-auto px-4">
+              <div className="relative">
+                <div className="w-32 h-32 bg-blue-600 rounded-[3rem] flex items-center justify-center text-white shadow-2xl shadow-blue-200 animate-bounce-slow">
+                  <Wand2 className="h-12 w-12" />
+                </div>
+                <div className="absolute -top-4 -right-4 w-12 h-12 bg-emerald-500 rounded-2xl flex items-center justify-center text-white shadow-lg rotate-12">
+                  <Sparkles className="h-6 w-6" />
+                </div>
               </div>
-              <div className="space-y-2">
-                <h3 className="text-2xl font-black text-slate-900">Studio de Création</h3>
-                <p className="text-slate-500 leading-relaxed">
-                  Configurez vos paramètres à gauche et laissez l'IA générer votre fiche pédagogique optimisée pour le Bénin.
+              
+              <div className="space-y-4">
+                <h3 className="text-3xl font-black text-slate-900 tracking-tight">Votre assistant pédagogique est prêt</h3>
+                <p className="text-slate-500 text-lg leading-relaxed max-w-lg mx-auto">
+                  Remplissez les détails de votre séance dans le panneau de gauche pour générer instantanément une fiche conforme au <span className="font-bold text-slate-900">format officiel MEMP Bénin</span>.
                 </p>
+              </div>
+
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-6 w-full text-left">
+                <div className="p-6 bg-white rounded-2xl border border-slate-100 shadow-sm">
+                   <div className="w-10 h-10 bg-blue-50 text-blue-600 rounded-lg flex items-center justify-center mb-4 font-bold">1</div>
+                   <p className="text-sm font-bold text-slate-900 mb-1">Configurez</p>
+                   <p className="text-xs text-slate-500">Classe, matière et thème du cours.</p>
+                </div>
+                <div className="p-6 bg-white rounded-2xl border border-slate-100 shadow-sm">
+                   <div className="w-10 h-10 bg-emerald-50 text-emerald-600 rounded-lg flex items-center justify-center mb-4 font-bold">2</div>
+                   <p className="text-sm font-bold text-slate-900 mb-1">Générez</p>
+                   <p className="text-xs text-slate-500">L'IA rédige votre fiche en 30s.</p>
+                </div>
+                <div className="p-6 bg-white rounded-2xl border border-slate-100 shadow-sm">
+                   <div className="w-10 h-10 bg-amber-50 text-amber-600 rounded-lg flex items-center justify-center mb-4 font-bold">3</div>
+                   <p className="text-sm font-bold text-slate-900 mb-1">Personnalisez</p>
+                   <p className="text-xs text-slate-500">Modifiez, ajoutez des exercices et exportez.</p>
+                </div>
               </div>
             </div>
           ) : loading ? (

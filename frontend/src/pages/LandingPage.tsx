@@ -1,5 +1,5 @@
 import { Button } from '../components/Button';
-import { Sparkles, Smartphone, Zap, ArrowRight, Shield } from 'lucide-react';
+import { Sparkles, Smartphone, Zap, ArrowRight, Shield, LayoutDashboard, FileText, Send, CheckCircle2, MessageCircle } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
 export default function LandingPage() {
@@ -18,7 +18,6 @@ export default function LandingPage() {
           </div>
           <div className="hidden md:flex items-center space-x-8">
             <a href="#features" className="text-sm font-semibold text-slate-600 hover:text-blue-600 transition-colors">Fonctionnalités</a>
-            <a href="#testimonials" className="text-sm font-semibold text-slate-600 hover:text-blue-600 transition-colors">Témoignages</a>
             <Link to="/login" className="text-sm font-semibold text-slate-600 hover:text-blue-600 transition-colors">Connexion</Link>
             <Link to="/register">
               <Button size="sm">Essayer Gratuitement</Button>
@@ -61,15 +60,13 @@ export default function LandingPage() {
               </Link>
               <div className="flex items-center space-x-4">
                 <div className="flex -space-x-2">
-                  {[1, 2, 3].map((i) => (
-                    <div key={i} className="w-10 h-10 rounded-full border-2 border-white bg-slate-200 flex items-center justify-center text-xs font-bold text-slate-600">
-                      {String.fromCharCode(64 + i)}
-                    </div>
-                  ))}
+                  <div className="w-10 h-10 rounded-full border-2 border-white bg-blue-600 flex items-center justify-center text-xs font-bold text-white">MK</div>
+                  <div className="w-10 h-10 rounded-full border-2 border-white bg-emerald-500 flex items-center justify-center text-xs font-bold text-white">AJ</div>
+                  <div className="w-10 h-10 rounded-full border-2 border-white bg-amber-500 flex items-center justify-center text-xs font-bold text-white">SD</div>
                 </div>
                 <div className="text-left">
                   <p className="text-sm font-bold text-slate-900">+500 enseignants</p>
-                  <p className="text-xs text-slate-500 text-nowrap">nous font déjà confiance</p>
+                  <p className="text-xs text-slate-500">déjà inscrits</p>
                 </div>
               </div>
             </div>
@@ -77,28 +74,87 @@ export default function LandingPage() {
 
           {/* App Preview Mockup */}
           <div className="mt-24 relative max-w-5xl mx-auto animate-float">
-            <div className="absolute inset-0 bg-gradient-to-t from-blue-600/20 to-transparent blur-3xl rounded-[3rem] -z-10 opacity-50"></div>
-            <div className="bg-white rounded-3xl shadow-2xl border border-slate-200 overflow-hidden aspect-[16/9] flex">
-              <div className="w-64 bg-slate-50 border-r border-slate-100 p-6 hidden md:block">
-                <div className="space-y-4">
-                  <div className="h-4 w-3/4 bg-slate-200 rounded"></div>
-                  <div className="h-4 w-1/2 bg-slate-200 rounded"></div>
-                  <div className="h-4 w-2/3 bg-slate-200 rounded"></div>
+            <div className="absolute inset-0 bg-gradient-to-t from-blue-600/30 to-transparent blur-[100px] rounded-[3rem] -z-10 opacity-60"></div>
+            <div className="bg-white rounded-3xl shadow-[0_32px_64px_-16px_rgba(0,0,0,0.1)] border border-slate-200 overflow-hidden flex flex-col md:flex-row h-[500px]">
+              {/* Sidebar Mockup */}
+              <div className="w-64 bg-slate-50 border-r border-slate-100 p-6 hidden md:flex flex-col">
+                <div className="flex items-center space-x-2 mb-10">
+                  <div className="w-8 h-8 bg-blue-600 rounded-lg flex items-center justify-center text-[10px] text-white font-bold">FP</div>
+                  <div className="text-xs font-bold text-slate-900">FichePro Dashboard</div>
                 </div>
-              </div>
-              <div className="flex-1 p-8">
-                <div className="flex items-center justify-between mb-8">
-                  <div className="h-8 w-48 bg-slate-100 rounded-lg"></div>
-                  <div className="flex space-x-2">
-                    <div className="h-8 w-8 bg-slate-100 rounded-lg"></div>
-                    <div className="h-8 w-8 bg-slate-100 rounded-lg"></div>
+                <div className="space-y-4 flex-1">
+                  <div className="flex items-center space-x-3 text-blue-600">
+                    <LayoutDashboard className="h-4 w-4" />
+                    <div className="text-[11px] font-bold">Tableau de bord</div>
+                  </div>
+                  <div className="flex items-center space-x-3 text-slate-400">
+                    <FileText className="h-4 w-4" />
+                    <div className="text-[11px] font-bold">Mes Fiches</div>
+                  </div>
+                  <div className="flex items-center space-x-3 text-slate-400">
+                    <Smartphone className="h-4 w-4" />
+                    <div className="text-[11px] font-bold">Application PWA</div>
                   </div>
                 </div>
-                <div className="space-y-6">
-                  <div className="h-32 w-full bg-blue-50 rounded-2xl border border-blue-100"></div>
-                  <div className="grid grid-cols-2 gap-4">
-                    <div className="h-24 bg-slate-50 rounded-2xl"></div>
-                    <div className="h-24 bg-slate-50 rounded-2xl"></div>
+                <div className="h-10 w-full bg-slate-100 rounded-xl mt-auto flex items-center px-3">
+                   <div className="w-6 h-6 bg-slate-300 rounded-full mr-2"></div>
+                   <div className="h-2 w-16 bg-slate-200 rounded"></div>
+                </div>
+              </div>
+
+              {/* Main Content Mockup */}
+              <div className="flex-1 flex flex-col bg-white">
+                <div className="h-16 border-b border-slate-50 flex items-center justify-between px-8">
+                  <div className="text-xs font-bold text-slate-400 italic">Studio de Création / Nouvelle Fiche</div>
+                  <div className="flex space-x-2">
+                    <div className="w-8 h-8 bg-slate-50 rounded-lg border border-slate-100 flex items-center justify-center text-slate-400">
+                      <MessageCircle className="h-4 w-4" />
+                    </div>
+                    <div className="w-8 h-8 bg-slate-50 rounded-lg border border-slate-100 flex items-center justify-center text-slate-400">
+                      <Shield className="h-4 w-4" />
+                    </div>
+                  </div>
+                </div>
+                <div className="flex-1 p-8 grid grid-cols-1 md:grid-cols-2 gap-8">
+                  <div className="space-y-6">
+                    <div className="space-y-2">
+                      <label className="text-[10px] font-black text-slate-400 uppercase tracking-wider">Matière</label>
+                      <div className="h-12 w-full bg-slate-50 border border-slate-100 rounded-xl flex items-center px-4">
+                        <span className="text-sm font-bold text-slate-700">Mathématiques</span>
+                      </div>
+                    </div>
+                    <div className="space-y-2">
+                      <label className="text-[10px] font-black text-slate-400 uppercase tracking-wider">Thème du cours</label>
+                      <div className="h-32 w-full bg-slate-50 border border-slate-100 rounded-xl p-4">
+                        <span className="text-sm font-medium text-slate-400">Ex: Calcul de périmètre d'un rectangle...</span>
+                        <div className="mt-4 flex items-center justify-center">
+                          <Sparkles className="h-8 w-8 text-blue-200" />
+                        </div>
+                      </div>
+                    </div>
+                    <div className="h-14 w-full bg-blue-600 rounded-xl flex items-center justify-center text-white font-bold text-sm shadow-lg shadow-blue-100">
+                       <Send className="h-4 w-4 mr-2" /> Générer ma fiche
+                    </div>
+                  </div>
+                  <div className="bg-slate-50 rounded-2xl border border-dashed border-slate-200 p-6 space-y-4 overflow-hidden relative">
+                    <div className="absolute top-4 right-4 bg-emerald-50 text-emerald-600 p-2 rounded-full">
+                      <CheckCircle2 className="h-5 w-5" />
+                    </div>
+                    <div className="text-xs font-black text-slate-900 border-b border-slate-200 pb-2">FICHE DE PRÉPARATION</div>
+                    <div className="space-y-2">
+                      <div className="h-2 w-full bg-slate-200 rounded"></div>
+                      <div className="h-2 w-full bg-slate-100 rounded"></div>
+                      <div className="h-2 w-5/6 bg-slate-100 rounded"></div>
+                      <div className="h-2 w-full bg-slate-100 rounded"></div>
+                      <div className="h-2 w-2/3 bg-slate-100 rounded"></div>
+                    </div>
+                    <div className="bg-white border border-slate-100 rounded-xl shadow-sm p-4 mt-4">
+                      <div className="text-[10px] font-bold text-blue-600 mb-2 uppercase">Objectifs</div>
+                      <div className="space-y-1">
+                        <div className="h-1.5 w-full bg-slate-100 rounded"></div>
+                        <div className="h-1.5 w-3/4 bg-slate-100 rounded"></div>
+                      </div>
+                    </div>
                   </div>
                 </div>
               </div>

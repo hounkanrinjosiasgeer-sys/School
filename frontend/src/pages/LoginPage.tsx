@@ -1,6 +1,7 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { Button } from '../components/Button';
-import { Phone, Lock, ArrowRight } from 'lucide-react';
+import { Phone, Lock, ArrowRight, Sparkles } from 'lucide-react';
+import { Link } from 'react-router-dom';
 
 export default function LoginPage() {
   const [phone, setPhone] = useState('');
@@ -9,91 +10,87 @@ export default function LoginPage() {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     console.log('Login attempt:', { phone, password });
-    // Logique d'authentification à venir
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-50 px-4 py-12 sm:px-6 lg:px-8">
-      <div className="max-w-md w-full space-y-8 bg-white p-8 rounded-xl shadow-lg border border-gray-100">
-        <div className="text-center">
-          <div className="mx-auto h-16 w-16 bg-blue-100 rounded-full flex items-center justify-center mb-4">
-            <span className="text-3xl">🎓</span>
+    <div className="min-h-screen flex items-center justify-center bg-[#f8fafc] px-4 py-12 relative overflow-hidden">
+      {/* Background Orbs */}
+      <div className="absolute top-[-10%] right-[-10%] w-96 h-96 bg-blue-100 rounded-full blur-3xl opacity-50"></div>
+      <div className="absolute bottom-[-10%] left-[-10%] w-96 h-96 bg-emerald-100 rounded-full blur-3xl opacity-50"></div>
+
+      <div className="max-w-md w-full space-y-8 bg-white/80 backdrop-blur-xl p-10 rounded-[2.5rem] shadow-2xl shadow-blue-100/50 border border-white relative z-10">
+        <div className="text-center space-y-4">
+          <Link to="/" className="inline-flex items-center space-x-2">
+            <div className="w-12 h-12 bg-blue-600 rounded-2xl flex items-center justify-center text-white shadow-xl shadow-blue-200">
+              <span className="text-2xl font-black">F</span>
+            </div>
+          </Link>
+          <div className="space-y-1">
+            <h2 className="text-3xl font-black text-slate-900 tracking-tight">
+              Bon retour !
+            </h2>
+            <p className="text-slate-500 font-medium">
+              Heureux de vous revoir sur FichePro.
+            </p>
           </div>
-          <h2 className="text-3xl font-extrabold text-gray-900">
-            FichePro Bénin
-          </h2>
-          <p className="mt-2 text-sm text-gray-600">
-            Connectez-vous pour préparer vos cours en un clin d'œil
-          </p>
         </div>
         
-        <form className="mt-8 space-y-6" onSubmit={handleSubmit}>
-          <div className="rounded-md shadow-sm space-y-4">
-            <div>
-              <label htmlFor="phone" className="block text-sm font-medium text-gray-700 mb-1">
-                Numéro de téléphone
+        <form className="mt-10 space-y-6" onSubmit={handleSubmit}>
+          <div className="space-y-5">
+            <div className="space-y-2">
+              <label htmlFor="phone" className="text-xs font-black text-slate-400 uppercase tracking-widest flex items-center">
+                <Phone className="h-3 w-3 mr-2" /> Numéro de téléphone
               </label>
-              <div className="relative">
-                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                  <Phone className="h-5 w-5 text-gray-400" />
-                </div>
-                <input
-                  id="phone"
-                  name="phone"
-                  type="tel"
-                  required
-                  className="appearance-none relative block w-full px-3 py-3 pl-10 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-lg focus:outline-none focus:ring-blue-500 focus:border-blue-500 focus:z-10 sm:text-sm"
-                  placeholder="Ex: +229 00 00 00 00"
-                  value={phone}
-                  onChange={(e) => setPhone(e.target.value)}
-                />
-              </div>
+              <input
+                id="phone"
+                type="tel"
+                required
+                className="w-full bg-slate-50 border border-slate-200 rounded-2xl px-5 py-4 focus:ring-2 focus:ring-blue-500 outline-none font-bold text-slate-700 transition-all placeholder:text-slate-300"
+                placeholder="+229 00 00 00 00"
+                value={phone}
+                onChange={(e) => setPhone(e.target.value)}
+              />
             </div>
             
-            <div>
-              <label htmlFor="password" className="block text-sm font-medium text-gray-700 mb-1">
-                Mot de passe
-              </label>
-              <div className="relative">
-                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                  <Lock className="h-5 w-5 text-gray-400" />
-                </div>
-                <input
-                  id="password"
-                  name="password"
-                  type="password"
-                  required
-                  className="appearance-none relative block w-full px-3 py-3 pl-10 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-lg focus:outline-none focus:ring-blue-500 focus:border-blue-500 focus:z-10 sm:text-sm"
-                  placeholder="Votre mot de passe"
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                />
+            <div className="space-y-2">
+              <div className="flex items-center justify-between">
+                <label htmlFor="password" className="text-xs font-black text-slate-400 uppercase tracking-widest flex items-center">
+                  <Lock className="h-3 w-3 mr-2" /> Mot de passe
+                </label>
+                <a href="#" className="text-[10px] font-black text-blue-600 uppercase tracking-tighter hover:underline">
+                  Oublié ?
+                </a>
               </div>
+              <input
+                id="password"
+                type="password"
+                required
+                className="w-full bg-slate-50 border border-slate-200 rounded-2xl px-5 py-4 focus:ring-2 focus:ring-blue-500 outline-none font-bold text-slate-700 transition-all placeholder:text-slate-300"
+                placeholder="••••••••"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+              />
             </div>
           </div>
 
-          <div className="flex items-center justify-between">
-            <div className="text-sm">
-              <a href="#" className="font-medium text-blue-600 hover:text-blue-500 transition-colors">
-                Mot de passe oublié ?
-              </a>
-            </div>
-          </div>
-
-          <div>
-            <Button type="submit" className="w-full py-3 flex justify-center items-center group">
-              Se connecter
-              <ArrowRight className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform" />
-            </Button>
-          </div>
+          <Button type="submit" size="lg" className="w-full h-16 shadow-xl shadow-blue-100 group">
+            Se connecter
+            <ArrowRight className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform" />
+          </Button>
         </form>
 
-        <div className="mt-6 text-center">
-          <p className="text-sm text-gray-600">
-            Pas encore de compte ?{' '}
-            <a href="/register" className="font-medium text-blue-600 hover:text-blue-500 transition-colors">
-              Inscrivez-vous gratuitement
-            </a>
+        <div className="mt-10 text-center relative">
+          <div className="absolute inset-0 flex items-center" aria-hidden="true">
+            <div className="w-full border-t border-slate-100"></div>
+          </div>
+          <div className="relative flex justify-center text-xs uppercase">
+            <span className="bg-white px-4 text-slate-400 font-bold">Nouveau ici ?</span>
+          </div>
+          <p className="mt-6 text-sm font-bold text-slate-600">
+            <Link to="/register" className="text-blue-600 hover:text-blue-700 transition-colors inline-flex items-center">
+              <Sparkles className="h-4 w-4 mr-2" />
+              Créer un compte gratuitement
+            </Link>
           </p>
         </div>
       </div>
