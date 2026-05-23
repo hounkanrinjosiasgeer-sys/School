@@ -1,0 +1,46 @@
+<svg width="1200" height="800" viewBox="0 0 1200 800" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="1200" height="800" fill="#F8FAFC"/>
+  <!-- Sidebar -->
+  <rect width="260" height="800" fill="white"/>
+  <rect x="259" width="1" height="800" fill="#E2E8F0"/>
+  
+  <rect x="30" y="40" width="40" height="40" rx="12" fill="#2563EB"/>
+  <text x="85" y="66" fill="#1E293B" font-family="Inter, sans-serif" font-size="20" font-weight="900">FichePro</text>
+  
+  <rect x="20" y="120" width="220" height="48" rx="12" fill="#EFF6FF"/>
+  <rect x="40" y="134" width="20" height="20" rx="4" fill="#2563EB" fill-opacity="0.2"/>
+  <text x="75" y="150" fill="#2563EB" font-family="Inter, sans-serif" font-size="14" font-weight="700">Studio de Création</text>
+  
+  <text x="75" y="210" fill="#64748B" font-family="Inter, sans-serif" font-size="14" font-weight="500">Bibliothèque</text>
+  <text x="75" y="260" fill="#64748B" font-family="Inter, sans-serif" font-size="14" font-weight="500">Statistiques</text>
+  
+  <!-- Main Content -->
+  <text x="300" y="70" fill="#0F172A" font-family="Inter, sans-serif" font-size="32" font-weight="900">Nouvelle Fiche</text>
+  <text x="300" y="100" fill="#64748B" font-family="Inter, sans-serif" font-size="16">Configurez votre séance pédagogique</text>
+  
+  <!-- Form Card -->
+  <rect x="300" y="140" width="380" height="600" rx="24" fill="white" stroke="#E2E8F0"/>
+  <rect x="330" y="180" width="320" height="56" rx="12" fill="#F1F5F9"/>
+  <text x="345" y="213" fill="#94A3B8" font-family="Inter, sans-serif" font-size="14">Matière...</text>
+  
+  <rect x="330" y="260" width="320" height="56" rx="12" fill="#F1F5F9"/>
+  <text x="345" y="293" fill="#94A3B8" font-family="Inter, sans-serif" font-size="14">Thème du cours...</text>
+  
+  <rect x="330" y="650" width="320" height="60" rx="16" fill="#2563EB"/>
+  <text x="490" y="686" text-anchor="middle" fill="white" font-family="Inter, sans-serif" font-size="16" font-weight="700">Générer la fiche</text>
+  
+  <!-- Preview Card -->
+  <rect x="710" y="140" width="460" height="600" rx="32" fill="white" stroke="#E2E8F0" stroke-width="2"/>
+  <rect x="710" y="140" width="460" height="8" rx="4" fill="#2563EB"/>
+  <circle cx="760" cy="200" r="24" fill="#F0F9FF"/>
+  <path d="M750 200L770 200M760 190L760 210" stroke="#2563EB" stroke-width="2" stroke-linecap="round"/>
+  
+  <rect x="750" y="250" width="380" height="20" rx="4" fill="#F1F5F9"/>
+  <rect x="750" y="290" width="300" height="12" rx="4" fill="#F8FAFC"/>
+  <rect x="750" y="315" width="340" height="12" rx="4" fill="#F8FAFC"/>
+  <rect x="750" y="340" width="260" height="12" rx="4" fill="#F8FAFC"/>
+  
+  <!-- Abstract Elements -->
+  <circle cx="1100" cy="100" r="80" fill="#2563EB" fill-opacity="0.05"/>
+  <circle cx="1150" cy="150" r="40" fill="#2563EB" fill-opacity="0.1"/>
+</svg>
