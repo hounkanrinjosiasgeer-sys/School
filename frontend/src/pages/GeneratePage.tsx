@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Button } from '../components/Button';
 import { 
   Wand2, 
@@ -8,19 +8,51 @@ import {
   FileText,
   Sparkles,
   Loader2,
-  ArrowLeft
+  Save,
+  Download,
+  Dumbbell,
+  MessageCircle,
+  BarChart
 } from 'lucide-react';
-import { generateLessonPlan } from '../services/gemini';
+import { generateLessonPlan, generateExercises } from '../services/gemini';
+import { useSheets } from '../hooks/useSheets';
+import { exportToPDF } from '../services/pdf';
+import { useParams, useNavigate } from 'react-router-dom';
 
 export default function GeneratePage() {
+  const { id } = useParams();
+  const navigate = useNavigate();
+  const { saveSheet, getSheet } = useSheets();
   const [loading, setLoading] = useState(false);
+  const [loadingExercises, setLoadingExercises] = useState(false);
   const [result, setResult] = useState('');
+  const [exercises, setExercises] = useState('');
+  const [currentId, setCurrentId] = useState<string | undefined>(id);
   const [formData, setFormData] = useState({
     level: 'CM1',
     subject: 'Mathématiques',
     topic: '',
-    duration: '1h'
+    duration: '1h',
+    difficulty: 'Moyen'
   });
+
+  useEffect(() => {
+    if (id) {
+      const sheet = getSheet(id);
+      if (sheet) {
+        setFormData({
+          level: sheet.level,
+          subject: sheet.subject,
+          topic: sheet.topic,
+          duration: sheet.duration,
+          difficulty: 'Moyen' // Default if not saved
+        });
+        setResult(sheet.content);
+        setExercises(sheet.exercises || '');
+        setCurrentId(id);
+      }
+    }
+  }, [id, getSheet]);
 
   const levels = ['CP1', 'CP2', 'CE1', 'CE2', 'CM1', 'CM2'];
   const subjects = [
@@ -32,10 +64,14 @@ export default function GeneratePage() {
     'Arts Plastiques',
     'EPS'
   ];
+  const difficulties = ['Facile', 'Moyen', 'Difficile'];
 
   const handleGenerate = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
+    setResult('');
+    setExercises('');
+    setCurrentId(undefined);
     
     const prompt = `Génère une fiche de préparation de cours détaillée pour une classe de ${formData.level} au Bénin.
     Matière: ${formData.subject}
@@ -59,6 +95,50 @@ export default function GeneratePage() {
     } finally {
       setLoading(false);
     }
+  };
+
+  const handleGenerateExercises = async () => {
+    if (!result) return;
+    setLoadingExercises(true);
+    try {
+      const generatedExercises = await generateExercises(result, formData.difficulty);
+      setExercises(generatedExercises);
+    } catch (error) {
+      alert("Erreur lors de la génération des exercices.");
+      console.error(error);
+    } finally {
+      setLoadingExercises(false);
+    }
+  };
+
+  const handleSave = () => {
+    const sheetId = saveSheet({
+      ...formData,
+      title: formData.topic,
+      content: result,
+      exercises: exercises,
+      id: currentId
+    });
+    setCurrentId(sheetId);
+    alert("Fiche enregistrée avec succès !");
+  };
+
+  const handleExportPDF = () => {
+    exportToPDF({
+      ...formData,
+      id: currentId || 'temp',
+      title: formData.topic,
+      content: result,
+      exercises: exercises,
+      createdAt: new Date().toISOString(),
+      updatedAt: new Date().toISOString()
+    });
+  };
+
+  const handleShareWhatsApp = () => {
+    const text = `Fiche de cours: ${formData.topic}\nClasse: ${formData.level}\nMatière: ${formData.subject}\n\n${result}\n\nExercices:\n${exercises}`;
+    const url = `https://wa.me/?text=${encodeURIComponent(text)}`;
+    window.open(url, '_blank');
   };
 
   return (
@@ -128,6 +208,28 @@ export default function GeneratePage() {
                   />
                 </div>
 
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1 flex items-center">
+                    <BarChart className="h-4 w-4 mr-2 text-gray-400" /> Difficulté des exercices
+                  </label>
+                  <div className="grid grid-cols-3 gap-2">
+                    {difficulties.map((d) => (
+                      <button
+                        key={d}
+                        type="button"
+                        onClick={() => setFormData({...formData, difficulty: d})}
+                        className={`py-2 px-1 text-xs rounded-lg border transition-all ${
+                          formData.difficulty === d 
+                            ? 'bg-blue-600 border-blue-600 text-white font-bold' 
+                            : 'bg-white border-gray-200 text-gray-600 hover:border-blue-300'
+                        }`}
+                      >
+                        {d}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+
                 <Button 
                   type="submit" 
                   disabled={loading}
@@ -141,7 +243,7 @@ export default function GeneratePage() {
                   ) : (
                     <>
                       <Sparkles className="mr-2 h-5 w-5" />
-                      Générer la fiche
+                      {currentId ? "Régénérer la fiche" : "Générer la fiche"}
                     </>
                   )}
                 </Button>
@@ -172,17 +274,49 @@ export default function GeneratePage() {
               )}
 
               {result && (
-                <div className="prose prose-blue max-w-none">
-                  <div className="flex justify-between items-center mb-6 pb-4 border-b">
-                    <h2 className="text-2xl font-bold text-gray-900 m-0">Aperçu de la fiche</h2>
-                    <div className="flex gap-2">
-                      <Button variant="outline" onClick={() => window.print()}>Imprimer</Button>
-                      <Button>Enregistrer</Button>
+                <div className="space-y-6">
+                  <div className="flex flex-wrap justify-between items-center gap-4 pb-4 border-b">
+                    <h2 className="text-2xl font-bold text-gray-900 m-0">
+                      {currentId ? "Édition de la fiche" : "Aperçu de la fiche"}
+                    </h2>
+                    <div className="flex flex-wrap gap-2">
+                      <Button variant="outline" size="sm" onClick={handleExportPDF} className="flex items-center">
+                        <Download className="h-4 w-4 mr-2" /> PDF
+                      </Button>
+                      <Button variant="outline" size="sm" onClick={handleShareWhatsApp} className="flex items-center text-green-600 hover:text-green-700 border-green-200 hover:bg-green-50">
+                        <MessageCircle className="h-4 w-4 mr-2" /> WhatsApp
+                      </Button>
+                      <Button variant="outline" size="sm" onClick={handleGenerateExercises} disabled={loadingExercises} className="flex items-center">
+                        {loadingExercises ? <Loader2 className="h-4 w-4 mr-2 animate-spin" /> : <Dumbbell className="h-4 w-4 mr-2" />}
+                        Exercices
+                      </Button>
+                      <Button size="sm" onClick={handleSave} className="flex items-center">
+                        <Save className="h-4 w-4 mr-2" /> Enregistrer
+                      </Button>
                     </div>
                   </div>
-                  <pre className="whitespace-pre-wrap font-sans text-gray-800 text-lg leading-relaxed bg-blue-50 p-6 rounded-lg border border-blue-100">
-                    {result}
-                  </pre>
+                  
+                  <div>
+                    <label className="block text-sm font-semibold text-gray-700 mb-2">Contenu de la fiche</label>
+                    <textarea 
+                      className="w-full h-[500px] p-6 rounded-lg border border-blue-100 bg-blue-50 font-sans text-gray-800 text-lg leading-relaxed focus:ring-2 focus:ring-blue-500 outline-none resize-none"
+                      value={result}
+                      onChange={(e) => setResult(e.target.value)}
+                    />
+                  </div>
+
+                  {exercises && (
+                    <div className="mt-8 animate-in fade-in slide-in-from-bottom-4 duration-500">
+                      <label className="block text-sm font-semibold text-gray-700 mb-2 flex items-center">
+                        <Dumbbell className="h-4 w-4 mr-2 text-blue-600" /> Exercices suggérés ({formData.difficulty})
+                      </label>
+                      <textarea 
+                        className="w-full h-[300px] p-6 rounded-lg border border-green-100 bg-green-50 font-sans text-gray-800 text-lg leading-relaxed focus:ring-2 focus:ring-green-500 outline-none resize-none"
+                        value={exercises}
+                        onChange={(e) => setExercises(e.target.value)}
+                      />
+                    </div>
+                  )}
                 </div>
               )}
             </div>

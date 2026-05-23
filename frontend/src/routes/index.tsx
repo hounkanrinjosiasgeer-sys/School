@@ -6,6 +6,8 @@ import LoginPage from '../pages/LoginPage';
 import RegisterPage from '../pages/RegisterPage';
 import DashboardPage from '../pages/DashboardPage';
 import GeneratePage from '../pages/GeneratePage';
+import LibraryPage from '../pages/LibraryPage';
+import ProfilePage from '../pages/ProfilePage';
 
 const router = createBrowserRouter([
   // Public Routes
@@ -29,8 +31,9 @@ const router = createBrowserRouter([
     children: [
       { path: '/dashboard', element: <DashboardPage /> },
       { path: '/generate', element: <GeneratePage /> },
-      { path: '/library', element: <div className="p-8">Ma Bibliothèque (Bientôt disponible)</div> },
-      { path: '/profile', element: <div className="p-8">Mon Profil (Bientôt disponible)</div> },
+      { path: '/generate/:id', element: <GeneratePage /> },
+      { path: '/library', element: <LibraryPage /> },
+      { path: '/profile', element: <ProfilePage /> },
     ]
   },
 

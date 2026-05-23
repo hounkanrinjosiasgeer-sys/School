@@ -7,8 +7,8 @@ export default function MainLayout() {
 
   const navItems = [
     { to: '/dashboard', icon: LayoutDashboard, label: 'Tableau de bord' },
-    { to: '/library', icon: BookOpen, label: 'Mes fiches' },
-    { to: '/profile', icon: Settings, label: 'Paramètres' },
+    { to: '/library', icon: BookOpen, label: 'Ma Bibliothèque' },
+    { to: '/profile', icon: Settings, label: 'Mon Profil' },
   ];
 
   return (

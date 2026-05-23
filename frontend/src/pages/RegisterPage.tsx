@@ -1,8 +1,12 @@
 import React, { useState } from 'react';
 import { Button } from '../components/Button';
-import { Phone, Lock, User, School, ArrowRight } from 'lucide-react';
+import { Phone, Lock, User, School, ArrowRight, CheckCircle2 } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 
 export default function RegisterPage() {
+  const navigate = useNavigate();
+  const [step, setStep] = useState<'register' | 'otp'>('register');
+  const [otp, setOtp] = useState('');
   const [formData, setFormData] = useState({
     fullName: '',
     phone: '',
@@ -14,12 +18,79 @@ export default function RegisterPage() {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     console.log('Registration attempt:', formData);
-    // Logique d'inscription à venir
+    // Simulation de l'envoi de l'OTP
+    setStep('otp');
+  };
+
+  const handleVerifyOtp = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (otp.length === 4) {
+      console.log('OTP verified:', otp);
+      navigate('/dashboard');
+    } else {
+      alert('Veuillez entrer un code à 4 chiffres.');
+    }
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
+
+  if (step === 'otp') {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-gray-50 px-4 py-12 sm:px-6 lg:px-8">
+        <div className="max-w-md w-full space-y-8 bg-white p-8 rounded-xl shadow-lg border border-gray-100">
+          <div className="text-center">
+            <div className="mx-auto h-16 w-16 bg-blue-100 rounded-full flex items-center justify-center mb-4">
+              <Phone className="h-8 w-8 text-blue-600" />
+            </div>
+            <h2 className="text-3xl font-extrabold text-gray-900">
+              Vérification OTP
+            </h2>
+            <p className="mt-2 text-sm text-gray-600">
+              Un code de validation a été envoyé au {formData.phone}
+            </p>
+          </div>
+          
+          <form className="mt-8 space-y-6" onSubmit={handleVerifyOtp}>
+            <div>
+              <label htmlFor="otp" className="block text-sm font-medium text-gray-700 mb-4 text-center">
+                Entrez le code à 4 chiffres
+              </label>
+              <div className="flex justify-center space-x-4">
+                <input
+                  id="otp"
+                  name="otp"
+                  type="text"
+                  maxLength={4}
+                  required
+                  className="appearance-none block w-32 px-3 py-4 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-lg focus:outline-none focus:ring-blue-500 focus:border-blue-500 text-center text-2xl tracking-[1em] font-bold"
+                  placeholder="0000"
+                  value={otp}
+                  onChange={(e) => setOtp(e.target.value.replace(/\D/g, ''))}
+                />
+              </div>
+            </div>
+
+            <div className="space-y-4">
+              <Button type="submit" className="w-full py-3 flex justify-center items-center group">
+                Valider le code
+                <CheckCircle2 className="ml-2 h-5 w-5" />
+              </Button>
+              
+              <button 
+                type="button"
+                onClick={() => setStep('register')}
+                className="w-full text-sm text-gray-500 hover:text-blue-600 transition-colors"
+              >
+                Modifier le numéro de téléphone
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-50 px-4 py-12 sm:px-6 lg:px-8">
