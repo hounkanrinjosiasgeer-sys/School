@@ -1,5 +1,5 @@
 import { Button } from '../components/Button';
-import { Sparkles, CheckCircle, Smartphone, Zap, ArrowRight, BookOpen, Shield, Users } from 'lucide-react';
+import { Sparkles, Smartphone, Zap, ArrowRight, Shield } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
 export default function LandingPage() {

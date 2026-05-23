@@ -14,7 +14,6 @@ import {
   MessageCircle,
   BarChart,
   ChevronLeft,
-  Share2,
   Trash2
 } from 'lucide-react';
 import { generateLessonPlan, generateExercises } from '../services/gemini';
