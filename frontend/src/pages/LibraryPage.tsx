@@ -8,7 +8,8 @@ import {
   Trash2, 
   Eye, 
   Download,
-  Plus
+  Plus,
+  MessageCircle
 } from 'lucide-react';
 import { Button } from '../components/Button';
 import { useNavigate, Link } from 'react-router-dom';
@@ -56,6 +57,16 @@ export default function LibraryPage() {
     const sheet = sheets.find(s => s.id === id);
     if (sheet) {
       exportToPDF(sheet);
+    }
+  };
+
+  const handleShareWhatsApp = (id: string, e: React.MouseEvent) => {
+    e.stopPropagation();
+    const sheet = sheets.find(s => s.id === id);
+    if (sheet) {
+      const text = `Fiche de cours: ${sheet.topic}\nClasse: ${sheet.level}\nMatière: ${sheet.subject}\n\n${sheet.content}\n\nExercices:\n${sheet.exercises || 'Aucun'}`;
+      const url = `https://wa.me/?text=${encodeURIComponent(text)}`;
+      window.open(url, '_blank');
     }
   };
 
@@ -123,6 +134,13 @@ export default function LibraryPage() {
                   <BookOpen className="h-6 w-6" />
                 </div>
                 <div className="flex gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
+                  <button 
+                    onClick={(e) => handleShareWhatsApp(sheet.id, e)}
+                    className="p-2 hover:bg-gray-100 rounded-lg text-green-500 hover:text-green-600"
+                    title="Partager sur WhatsApp"
+                  >
+                    <MessageCircle className="h-5 w-5" />
+                  </button>
                   <button 
                     onClick={(e) => handleExport(sheet.id, e)}
                     className="p-2 hover:bg-gray-100 rounded-lg text-gray-500 hover:text-blue-600"
