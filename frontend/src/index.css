@@ -1,13 +1,14 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import "tailwindcss";
 
 :root {
   font-family: 'Inter', system-ui, -apple-system, sans-serif;
 }
 
 body {
-  @apply bg-gray-50 text-gray-900 antialiased;
+  background-color: theme('colors.gray.50');
+  color: theme('colors.gray.900');
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 pre {

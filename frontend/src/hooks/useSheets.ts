@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Sheet } from '../types';
+import type { Sheet } from '../types';
 
 export const useSheets = () => {
   const [sheets, setSheets] = useState<Sheet[]>([]);

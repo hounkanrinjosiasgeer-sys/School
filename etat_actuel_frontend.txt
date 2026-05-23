@@ -1,0 +1,58 @@
+# ÉTAT ACTUEL DU FRONTEND - FICHEPRO BÉNIN
+
+## 1. Architecture & Dossiers
+Le frontend est situé dans le dossier `/frontend` et utilise **React + Vite + TypeScript**.
+
+Structure :
+- `/src/pages` : Écrans de l'application (Landing, Login, Register, Dashboard, Generate, Library, Profile).
+- `/src/components` : Composants UI réutilisables (Button, etc.).
+- `/src/layouts` : Layouts (MainLayout avec Sidebar responsive, AuthLayout).
+- `/src/services` : Logique API (Gemini, Export PDF).
+- `/src/hooks` : Hooks personnalisés (useSheets pour la persistance locale).
+- `/src/routes` : Configuration du routage (React Router).
+
+## 2. Fonctionnalités Implémentées (MVP 100%)
+
+### Authentification
+- Landing Page : Présentation du produit et appel à l'action.
+- Connexion : Formulaire par numéro de téléphone.
+- Inscription : Formulaire complet suivi d'une simulation de vérification OTP (code à 4 chiffres).
+
+### Dashboard (Tableau de bord)
+- Statistiques dynamiques : Nombre de fiches créées, temps gagné (calculé), classes couvertes.
+- Activité récente : Accès rapide aux 3 dernières fiches générées.
+- Sidebar : Navigation complète et responsive (menu burger sur mobile).
+
+### Générateur de Fiches (Cœur IA)
+- Formulaire de paramètres : Classe (CP1-CM2), Matière, Thème, Durée.
+- Intégration Gemini : Génération automatique au format officiel MEMP.
+- Éditeur : Zone de texte riche pour modifier le contenu généré.
+- Module Exercices : Génération d'exercices avec sélecteur de difficulté (Facile, Moyen, Difficile).
+
+### Bibliothèque
+- Gestion des fiches : Liste complète des fiches enregistrées.
+- Recherche & Filtres : Par thème, classe ou matière.
+- Actions : Voir/Modifier, Supprimer, Exporter en PDF, Partager sur WhatsApp.
+
+### Export & Partage
+- PDF : Génération de documents PDF formatés pour l'impression.
+- WhatsApp : Partage direct du contenu de la fiche via un lien wa.me.
+
+### Technique & Mobile
+- PWA : Application installable sur smartphone (manifest.json configuré).
+- Responsive Design : Interface optimisée pour les écrans mobiles (usage prioritaire au Bénin).
+- Persistance Locale : Utilisation du LocalStorage pour conserver les données sans backend.
+
+## 3. Stack Technique
+- Framework : React 19 + Vite 8
+- Style : Tailwind CSS 4
+- Icônes : Lucide React
+- IA : @google/generative-ai (Gemini 1.5 Flash)
+- PDF : jspdf
+- PWA : vite-plugin-pwa
+
+## 4. Prochaines Étapes (Backend)
+- Base de données réelle (PostgreSQL) pour remplacer le LocalStorage.
+- API Backend (Node.js/FastAPI) pour sécuriser la clé Gemini.
+- Service SMS réel pour l'OTP.
+- Intégration réelle des paiements Mobile Money (FedaPay/CinetPay).

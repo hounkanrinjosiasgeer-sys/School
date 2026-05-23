@@ -1,5 +1,5 @@
 import { jsPDF } from "jspdf";
-import { Sheet } from "../types";
+import type { Sheet } from "../types";
 
 export const exportToPDF = (sheet: Sheet) => {
   const doc = new jsPDF();

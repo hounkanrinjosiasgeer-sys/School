@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { Button } from '../components/Button';
 import { 
   Wand2, 
@@ -12,17 +12,20 @@ import {
   Download,
   Dumbbell,
   MessageCircle,
-  BarChart
+  BarChart,
+  ChevronLeft,
+  Share2,
+  Trash2
 } from 'lucide-react';
 import { generateLessonPlan, generateExercises } from '../services/gemini';
 import { useSheets } from '../hooks/useSheets';
 import { exportToPDF } from '../services/pdf';
-import { useParams, useNavigate } from 'react-router-dom';
+import { useParams, Link, useNavigate } from 'react-router-dom';
 
 export default function GeneratePage() {
   const { id } = useParams();
   const navigate = useNavigate();
-  const { saveSheet, getSheet } = useSheets();
+  const { saveSheet, getSheet, deleteSheet } = useSheets();
   const [loading, setLoading] = useState(false);
   const [loadingExercises, setLoadingExercises] = useState(false);
   const [result, setResult] = useState('');
@@ -45,7 +48,7 @@ export default function GeneratePage() {
           subject: sheet.subject,
           topic: sheet.topic,
           duration: sheet.duration,
-          difficulty: 'Moyen' // Default if not saved
+          difficulty: 'Moyen'
         });
         setResult(sheet.content);
         setExercises(sheet.exercises || '');
@@ -71,7 +74,6 @@ export default function GeneratePage() {
     setLoading(true);
     setResult('');
     setExercises('');
-    setCurrentId(undefined);
     
     const prompt = `Génère une fiche de préparation de cours détaillée pour une classe de ${formData.level} au Bénin.
     Matière: ${formData.subject}
@@ -90,7 +92,7 @@ export default function GeneratePage() {
       const generatedText = await generateLessonPlan(prompt);
       setResult(generatedText);
     } catch (error) {
-      alert("Erreur lors de la génération. Vérifiez votre clé API dans le fichier .env");
+      alert("Erreur lors de la génération. Vérifiez votre clé API.");
       console.error(error);
     } finally {
       setLoading(false);
@@ -123,207 +125,233 @@ export default function GeneratePage() {
     alert("Fiche enregistrée avec succès !");
   };
 
-  const handleExportPDF = () => {
-    exportToPDF({
-      ...formData,
-      id: currentId || 'temp',
-      title: formData.topic,
-      content: result,
-      exercises: exercises,
-      createdAt: new Date().toISOString(),
-      updatedAt: new Date().toISOString()
-    });
-  };
-
-  const handleShareWhatsApp = () => {
-    const text = `Fiche de cours: ${formData.topic}\nClasse: ${formData.level}\nMatière: ${formData.subject}\n\n${result}\n\nExercices:\n${exercises}`;
-    const url = `https://wa.me/?text=${encodeURIComponent(text)}`;
-    window.open(url, '_blank');
+  const handleDelete = () => {
+    if (currentId && window.confirm("Supprimer cette fiche définitivement ?")) {
+      deleteSheet(currentId);
+      navigate('/dashboard');
+    }
   };
 
   return (
-    <div className="bg-gray-50 pb-12 w-full min-h-screen">
-      <div className="max-w-6xl mx-auto px-4 mt-8">
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-          
-          {/* Form Column */}
-          <div className="lg:col-span-1">
-            <div className="bg-white p-6 rounded-xl border border-gray-200 shadow-sm sticky top-24">
-              <div className="flex items-center mb-6 text-blue-600">
-                <Wand2 className="h-5 w-5 mr-2" />
-                <h3 className="font-bold text-lg">Paramètres</h3>
-              </div>
+    <div className="min-h-screen bg-[#f8fafc] flex flex-col">
+      {/* Top Bar */}
+      <nav className="bg-white border-b border-slate-200 px-6 h-16 flex items-center justify-between sticky top-0 z-30">
+        <div className="flex items-center space-x-4">
+          <Link to="/dashboard" className="p-2 hover:bg-slate-50 rounded-lg transition-colors text-slate-400 hover:text-slate-600">
+            <ChevronLeft className="h-5 w-5" />
+          </Link>
+          <div className="h-4 w-px bg-slate-200"></div>
+          <h2 className="font-bold text-slate-900 truncate max-w-[200px] md:max-w-md">
+            {formData.topic || "Nouvelle Fiche"}
+          </h2>
+        </div>
+        <div className="flex items-center space-x-2">
+          {currentId && (
+            <button onClick={handleDelete} className="p-2 text-slate-400 hover:text-red-500 transition-colors">
+              <Trash2 className="h-5 w-5" />
+            </button>
+          )}
+          <Button size="sm" onClick={handleSave} disabled={!result} className="shadow-sm">
+            <Save className="h-4 w-4 mr-2" />
+            Enregistrer
+          </Button>
+        </div>
+      </nav>
 
-              <form onSubmit={handleGenerate} className="space-y-5">
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1 flex items-center">
-                    <Users className="h-4 w-4 mr-2 text-gray-400" /> Classe
-                  </label>
+      <div className="flex-1 flex flex-col lg:flex-row overflow-hidden">
+        {/* Left Sidebar: Form */}
+        <aside className="w-full lg:w-[400px] bg-white border-r border-slate-200 overflow-y-auto p-8 space-y-8">
+          <div className="space-y-1">
+            <h3 className="text-xl font-black text-slate-900">Configuration</h3>
+            <p className="text-sm text-slate-500">Définissez les paramètres de votre cours.</p>
+          </div>
+
+          <form onSubmit={handleGenerate} className="space-y-6">
+            <div className="space-y-4">
+              <div className="grid grid-cols-2 gap-4">
+                <FormGroup label="Classe" icon={<Users className="h-4 w-4" />}>
                   <select 
-                    className="w-full border border-gray-300 rounded-lg px-3 py-2.5 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all"
+                    className="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 focus:ring-2 focus:ring-blue-500 outline-none font-medium text-slate-700"
                     value={formData.level}
                     onChange={(e) => setFormData({...formData, level: e.target.value})}
                   >
                     {levels.map(l => <option key={l} value={l}>{l}</option>)}
                   </select>
-                </div>
-
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1 flex items-center">
-                    <BookOpen className="h-4 w-4 mr-2 text-gray-400" /> Matière
-                  </label>
-                  <select 
-                    className="w-full border border-gray-300 rounded-lg px-3 py-2.5 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all"
-                    value={formData.subject}
-                    onChange={(e) => setFormData({...formData, subject: e.target.value})}
-                  >
-                    {subjects.map(s => <option key={s} value={s}>{s}</option>)}
-                  </select>
-                </div>
-
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1 flex items-center">
-                    <FileText className="h-4 w-4 mr-2 text-gray-400" /> Thème du cours
-                  </label>
+                </FormGroup>
+                <FormGroup label="Durée" icon={<Clock className="h-4 w-4" />}>
                   <input 
                     type="text"
-                    required
-                    placeholder="Ex: La photosynthèse"
-                    className="w-full border border-gray-300 rounded-lg px-3 py-2.5 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all"
-                    value={formData.topic}
-                    onChange={(e) => setFormData({...formData, topic: e.target.value})}
-                  />
-                </div>
-
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1 flex items-center">
-                    <Clock className="h-4 w-4 mr-2 text-gray-400" /> Durée
-                  </label>
-                  <input 
-                    type="text"
-                    placeholder="Ex: 45 min"
-                    className="w-full border border-gray-300 rounded-lg px-3 py-2.5 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all"
+                    className="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 focus:ring-2 focus:ring-blue-500 outline-none font-medium text-slate-700"
                     value={formData.duration}
                     onChange={(e) => setFormData({...formData, duration: e.target.value})}
                   />
-                </div>
+                </FormGroup>
+              </div>
 
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1 flex items-center">
-                    <BarChart className="h-4 w-4 mr-2 text-gray-400" /> Difficulté des exercices
-                  </label>
-                  <div className="grid grid-cols-3 gap-2">
-                    {difficulties.map((d) => (
-                      <button
-                        key={d}
-                        type="button"
-                        onClick={() => setFormData({...formData, difficulty: d})}
-                        className={`py-2 px-1 text-xs rounded-lg border transition-all ${
-                          formData.difficulty === d 
-                            ? 'bg-blue-600 border-blue-600 text-white font-bold' 
-                            : 'bg-white border-gray-200 text-gray-600 hover:border-blue-300'
-                        }`}
-                      >
-                        {d}
-                      </button>
-                    ))}
-                  </div>
-                </div>
-
-                <Button 
-                  type="submit" 
-                  disabled={loading}
-                  className="w-full py-3 flex items-center justify-center"
+              <FormGroup label="Matière" icon={<BookOpen className="h-4 w-4" />}>
+                <select 
+                  className="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 focus:ring-2 focus:ring-blue-500 outline-none font-medium text-slate-700"
+                  value={formData.subject}
+                  onChange={(e) => setFormData({...formData, subject: e.target.value})}
                 >
-                  {loading ? (
-                    <>
-                      <Loader2 className="animate-spin mr-2 h-5 w-5" />
-                      Génération...
-                    </>
-                  ) : (
-                    <>
-                      <Sparkles className="mr-2 h-5 w-5" />
-                      {currentId ? "Régénérer la fiche" : "Générer la fiche"}
-                    </>
-                  )}
-                </Button>
-              </form>
+                  {subjects.map(s => <option key={s} value={s}>{s}</option>)}
+                </select>
+              </FormGroup>
+
+              <FormGroup label="Thème du cours" icon={<FileText className="h-4 w-4" />}>
+                <input 
+                  type="text"
+                  required
+                  placeholder="Ex: La photosynthèse"
+                  className="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 focus:ring-2 focus:ring-blue-500 outline-none font-medium text-slate-700"
+                  value={formData.topic}
+                  onChange={(e) => setFormData({...formData, topic: e.target.value})}
+                />
+              </FormGroup>
+
+              <div className="pt-2">
+                <label className="text-xs font-black text-slate-400 uppercase tracking-widest mb-3 block flex items-center">
+                  <BarChart className="h-3 w-3 mr-2" /> Difficulté des exercices
+                </label>
+                <div className="grid grid-cols-3 gap-2">
+                  {difficulties.map((d) => (
+                    <button
+                      key={d}
+                      type="button"
+                      onClick={() => setFormData({...formData, difficulty: d})}
+                      className={`py-2.5 rounded-xl border text-sm font-bold transition-all ${
+                        formData.difficulty === d 
+                          ? 'bg-blue-600 border-blue-600 text-white shadow-lg shadow-blue-100' 
+                          : 'bg-slate-50 border-slate-200 text-slate-500 hover:border-blue-200'
+                      }`}
+                    >
+                      {d}
+                    </button>
+                  ))}
+                </div>
+              </div>
             </div>
-          </div>
 
-          {/* Result Column */}
-          <div className="lg:col-span-2">
-            <div className="bg-white min-h-[600px] rounded-xl border border-gray-200 shadow-sm p-8 flex flex-col">
-              {!result && !loading && (
-                <div className="flex-1 flex flex-col items-center justify-center text-center text-gray-400">
-                  <div className="bg-gray-50 p-6 rounded-full mb-4">
-                    <Sparkles className="h-12 w-12" />
-                  </div>
-                  <h3 className="text-xl font-medium text-gray-600 mb-2">Prêt à créer ?</h3>
-                  <p className="max-w-xs">
-                    Remplissez le formulaire et laissez l'IA FichePro rédiger votre contenu pédagogique.
-                  </p>
-                </div>
+            <Button 
+              type="submit" 
+              disabled={loading}
+              className="w-full h-14 text-lg"
+            >
+              {loading ? (
+                <>
+                  <Loader2 className="animate-spin mr-2 h-5 w-5" />
+                  Génération...
+                </>
+              ) : (
+                <>
+                  <Sparkles className="mr-2 h-5 w-5" />
+                  Générer la fiche
+                </>
               )}
+            </Button>
+          </form>
+        </aside>
 
-              {loading && (
-                <div className="flex-1 flex flex-col items-center justify-center space-y-4">
-                  <Loader2 className="h-12 w-12 text-blue-600 animate-spin" />
-                  <p className="text-gray-600 animate-pulse font-medium">L'IA prépare votre fiche de cours...</p>
+        {/* Main Content: Preview */}
+        <main className="flex-1 overflow-y-auto p-4 md:p-12">
+          {!result && !loading ? (
+            <div className="h-full flex flex-col items-center justify-center text-center space-y-6 max-w-md mx-auto">
+              <div className="w-24 h-24 bg-blue-50 rounded-[2.5rem] flex items-center justify-center text-blue-600">
+                <Wand2 className="h-10 w-10" />
+              </div>
+              <div className="space-y-2">
+                <h3 className="text-2xl font-black text-slate-900">Studio de Création</h3>
+                <p className="text-slate-500 leading-relaxed">
+                  Configurez vos paramètres à gauche et laissez l'IA générer votre fiche pédagogique optimisée pour le Bénin.
+                </p>
+              </div>
+            </div>
+          ) : loading ? (
+             <div className="h-full flex flex-col items-center justify-center space-y-6">
+                <div className="relative">
+                  <div className="w-20 h-20 border-4 border-blue-100 rounded-full"></div>
+                  <div className="w-20 h-20 border-4 border-blue-600 rounded-full border-t-transparent animate-spin absolute top-0"></div>
                 </div>
-              )}
+                <p className="text-slate-900 font-black animate-pulse text-xl">L'IA rédige votre fiche...</p>
+             </div>
+          ) : (
+            <div className="max-w-4xl mx-auto space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-700">
+              {/* Toolbar */}
+              <div className="flex flex-wrap items-center justify-between gap-4 bg-white p-4 rounded-2xl border border-slate-200 shadow-sm">
+                <div className="flex items-center space-x-2">
+                   <span className="text-xs font-black text-slate-400 px-3 uppercase tracking-widest">Document prêt</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <Button variant="outline" size="sm" onClick={() => exportToPDF({
+                    ...formData, id: currentId || 'temp', title: formData.topic, content: result, exercises: exercises,
+                    createdAt: new Date().toISOString(), updatedAt: new Date().toISOString()
+                  })}>
+                    <Download className="h-4 w-4 mr-2" /> PDF
+                  </Button>
+                  <Button variant="outline" size="sm" onClick={() => {
+                    const text = `Fiche: ${formData.topic}\n\n${result}\n\nExercices:\n${exercises}`;
+                    window.open(`https://wa.me/?text=${encodeURIComponent(text)}`, '_blank');
+                  }} className="text-emerald-600 border-emerald-100 hover:bg-emerald-50">
+                    <MessageCircle className="h-4 w-4 mr-2" /> WhatsApp
+                  </Button>
+                  <Button variant="secondary" size="sm" onClick={handleGenerateExercises} disabled={loadingExercises}>
+                    {loadingExercises ? <Loader2 className="h-4 w-4 mr-2 animate-spin" /> : <Dumbbell className="h-4 w-4 mr-2" />}
+                    Exercices
+                  </Button>
+                </div>
+              </div>
 
-              {result && (
-                <div className="space-y-6">
-                  <div className="flex flex-wrap justify-between items-center gap-4 pb-4 border-b">
-                    <h2 className="text-2xl font-bold text-gray-900 m-0">
-                      {currentId ? "Édition de la fiche" : "Aperçu de la fiche"}
-                    </h2>
-                    <div className="flex flex-wrap gap-2">
-                      <Button variant="outline" size="sm" onClick={handleExportPDF} className="flex items-center">
-                        <Download className="h-4 w-4 mr-2" /> PDF
-                      </Button>
-                      <Button variant="outline" size="sm" onClick={handleShareWhatsApp} className="flex items-center text-green-600 hover:text-green-700 border-green-200 hover:bg-green-50">
-                        <MessageCircle className="h-4 w-4 mr-2" /> WhatsApp
-                      </Button>
-                      <Button variant="outline" size="sm" onClick={handleGenerateExercises} disabled={loadingExercises} className="flex items-center">
-                        {loadingExercises ? <Loader2 className="h-4 w-4 mr-2 animate-spin" /> : <Dumbbell className="h-4 w-4 mr-2" />}
-                        Exercices
-                      </Button>
-                      <Button size="sm" onClick={handleSave} className="flex items-center">
-                        <Save className="h-4 w-4 mr-2" /> Enregistrer
-                      </Button>
+              {/* Document Editor Area */}
+              <div className="space-y-6">
+                <div className="bg-white rounded-[2rem] shadow-xl shadow-slate-200/50 border border-slate-200 overflow-hidden">
+                   <div className="h-2 bg-blue-600 w-full"></div>
+                   <div className="p-10 space-y-6">
+                      <div className="flex justify-between items-start border-b border-slate-100 pb-6">
+                        <div className="space-y-1">
+                          <h1 className="text-3xl font-black text-slate-900">{formData.topic}</h1>
+                          <p className="text-blue-600 font-bold uppercase tracking-widest text-xs">{formData.subject} • {formData.level}</p>
+                        </div>
+                        <div className="text-right text-slate-400 text-xs font-bold uppercase tracking-tighter">
+                          Format Officiel MEMP
+                        </div>
+                      </div>
+                      <textarea 
+                        className="w-full h-[600px] py-4 bg-transparent font-sans text-slate-700 text-lg leading-relaxed focus:outline-none resize-none"
+                        value={result}
+                        onChange={(e) => setResult(e.target.value)}
+                      />
+                   </div>
+                </div>
+
+                {exercises && (
+                  <div className="bg-emerald-50/50 rounded-[2rem] border border-emerald-100 p-10 space-y-6 animate-in slide-in-from-bottom-8 duration-1000">
+                    <div className="flex items-center space-x-3 text-emerald-700">
+                      <Dumbbell className="h-6 w-6" />
+                      <h3 className="text-xl font-black">Exercices d'application</h3>
                     </div>
-                  </div>
-                  
-                  <div>
-                    <label className="block text-sm font-semibold text-gray-700 mb-2">Contenu de la fiche</label>
                     <textarea 
-                      className="w-full h-[500px] p-6 rounded-lg border border-blue-100 bg-blue-50 font-sans text-gray-800 text-lg leading-relaxed focus:ring-2 focus:ring-blue-500 outline-none resize-none"
-                      value={result}
-                      onChange={(e) => setResult(e.target.value)}
+                      className="w-full h-[400px] bg-transparent font-sans text-slate-700 text-lg leading-relaxed focus:outline-none resize-none"
+                      value={exercises}
+                      onChange={(e) => setExercises(e.target.value)}
                     />
                   </div>
-
-                  {exercises && (
-                    <div className="mt-8 animate-in fade-in slide-in-from-bottom-4 duration-500">
-                      <label className="block text-sm font-semibold text-gray-700 mb-2 flex items-center">
-                        <Dumbbell className="h-4 w-4 mr-2 text-blue-600" /> Exercices suggérés ({formData.difficulty})
-                      </label>
-                      <textarea 
-                        className="w-full h-[300px] p-6 rounded-lg border border-green-100 bg-green-50 font-sans text-gray-800 text-lg leading-relaxed focus:ring-2 focus:ring-green-500 outline-none resize-none"
-                        value={exercises}
-                        onChange={(e) => setExercises(e.target.value)}
-                      />
-                    </div>
-                  )}
-                </div>
-              )}
+                )}
+              </div>
             </div>
-          </div>
-
-        </div>
+          )}
+        </main>
       </div>
+    </div>
+  );
+}
+
+function FormGroup({ label, icon, children }: { label: string, icon: any, children: React.ReactNode }) {
+  return (
+    <div className="space-y-2">
+      <label className="text-xs font-black text-slate-400 uppercase tracking-widest flex items-center">
+        <span className="mr-2 opacity-50">{icon}</span> {label}
+      </label>
+      {children}
     </div>
   );
 }
