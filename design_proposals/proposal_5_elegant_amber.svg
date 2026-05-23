@@ -1,0 +1,42 @@
+<svg width="1200" height="800" viewBox="0 0 1200 800" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Gradient Background -->
+  <defs>
+    <linearGradient id="bg_grad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#FDFCFB" />
+      <stop offset="100%" style="stop-color:#E2D1C3; stop-opacity:0.2" />
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="800" fill="url(#bg_grad)"/>
+
+  <!-- Top Bar -->
+  <rect width="1200" height="100" fill="white" fill-opacity="0.8"/>
+  <rect y="99" width="1200" height="1" fill="#E5E7EB"/>
+  
+  <rect x="50" y="30" width="40" height="40" rx="20" fill="#F59E0B"/>
+  <text x="105" y="58" fill="#1F2937" font-family="Inter, sans-serif" font-size="24" font-weight="900">FichePro</text>
+
+  <!-- Centered Content -->
+  <text x="600" y="200" text-anchor="middle" fill="#111827" font-family="Inter, sans-serif" font-size="48" font-weight="900">Créez. Enseignez. Inspirez.</text>
+  <text x="600" y="240" text-anchor="middle" fill="#6B7280" font-family="Inter, sans-serif" font-size="20">L'outil ultime pour les instituteurs d'excellence.</text>
+
+  <!-- Big Interactive Card -->
+  <rect x="200" y="300" width="800" height="400" rx="40" fill="white" shadow="0 30px 60px rgba(0,0,0,0.05)"/>
+  
+  <!-- Left Side of Card -->
+  <rect x="240" y="340" width="340" height="320" rx="30" fill="#FFF7ED"/>
+  <text x="280" y="390" fill="#9A3412" font-family="Inter, sans-serif" font-size="22" font-weight="800">Prêt en un clic</text>
+  <rect x="280" y="420" width="260" height="2" fill="#FED7AA"/>
+  
+  <text x="280" y="460" fill="#C2410C" font-family="Inter, sans-serif" font-size="14" font-weight="600">THÈME DU JOUR</text>
+  <rect x="280" y="480" width="260" height="50" rx="12" fill="white" stroke="#FDE68A"/>
+  <text x="295" y="510" fill="#D97706" font-family="Inter, sans-serif" font-size="14">Ex: Le cycle de l'eau...</text>
+
+  <rect x="280" y="560" width="260" height="60" rx="30" fill="#F59E0B"/>
+  <text x="410" y="596" text-anchor="middle" fill="white" font-family="Inter, sans-serif" font-size="18" font-weight="800">Générer ✨</text>
+
+  <!-- Right Side of Card (Preview) -->
+  <rect x="620" y="340" width="340" height="320" rx="30" fill="#F0FDF4" stroke="#DCFCE7" stroke-dasharray="8 8"/>
+  <circle cx="790" cy="460" r="40" fill="#10B981" fill-opacity="0.1"/>
+  <path d="M780 460L790 470L810 445" stroke="#10B981" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+  <text x="790" y="530" text-anchor="middle" fill="#065F46" font-family="Inter, sans-serif" font-size="16" font-weight="700">Votre fiche apparaîtra ici</text>
+</svg>

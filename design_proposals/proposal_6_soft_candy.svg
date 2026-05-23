@@ -1,0 +1,49 @@
+<svg width="1200" height="800" viewBox="0 0 1200 800" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Gradient Background (Ultra Soft) -->
+  <rect width="1200" height="800" fill="#F8FAFC"/>
+  
+  <!-- Soft Shapes (Floating) -->
+  <circle cx="1000" cy="150" r="120" fill="#818CF8" fill-opacity="0.1"/>
+  <circle cx="150" cy="650" r="180" fill="#F472B6" fill-opacity="0.05"/>
+
+  <!-- Main Container -->
+  <rect x="80" y="80" width="1040" height="640" rx="60" fill="white" shadow="0 40px 100px rgba(0,0,0,0.03)"/>
+  
+  <!-- Sidebar (Soft) -->
+  <rect x="80" y="80" width="100" height="640" rx="60 0 0 60" fill="#F1F5F9" fill-opacity="0.5"/>
+  <rect x="105" y="130" width="50" height="50" rx="20" fill="white"/>
+  <circle cx="130" cy="155" r="10" fill="#6366F1"/>
+  
+  <rect x="105" y="210" width="50" height="50" rx="20" fill="white"/>
+  <rect x="105" y="280" width="50" height="50" rx="20" fill="white"/>
+  
+  <!-- Top Bar -->
+  <text x="210" y="150" fill="#1E293B" font-family="Inter, sans-serif" font-size="28" font-weight="900">Studio de Création</text>
+  <rect x="880" y="115" width="180" height="54" rx="27" fill="#6366F1"/>
+  <text x="970" y="148" text-anchor="middle" fill="white" font-family="Inter, sans-serif" font-size="15" font-weight="700">Nouvelle Fiche</text>
+
+  <!-- Dashboard Overview -->
+  <rect x="210" y="210" width="260" height="180" rx="40" fill="#EEF2FF"/>
+  <text x="250" y="260" fill="#4338CA" font-family="Inter, sans-serif" font-size="16" font-weight="700">Fiches Prêtes</text>
+  <text x="250" y="310" fill="#312E81" font-family="Inter, sans-serif" font-size="44" font-weight="900">24</text>
+  <text x="250" y="345" fill="#6366F1" font-family="Inter, sans-serif" font-size="12" font-weight="600">↑ 12% cette semaine</text>
+
+  <rect x="490" y="210" width="260" height="180" rx="40" fill="#FDF2F8"/>
+  <text x="530" y="260" fill="#BE185D" font-family="Inter, sans-serif" font-size="16" font-weight="700">Classes Actives</text>
+  <text x="530" y="310" fill="#831843" font-family="Inter, sans-serif" font-size="44" font-weight="900">06</text>
+
+  <rect x="770" y="210" width="260" height="180" rx="40" fill="#F0FDF4"/>
+  <text x="810" y="260" fill="#15803D" font-family="Inter, sans-serif" font-size="16" font-weight="700">Matières</text>
+  <text x="810" y="310" fill="#064E3B" font-family="Inter, sans-serif" font-size="44" font-weight="900">12</text>
+
+  <!-- Recent Activity -->
+  <text x="210" y="460" fill="#1E293B" font-family="Inter, sans-serif" font-size="22" font-weight="800">Activités Récentes</text>
+  <rect x="210" y="490" width="820" height="180" rx="40" fill="#F8FAFC" stroke="#F1F5F9"/>
+  
+  <rect x="240" y="525" width="60" height="60" rx="20" fill="white"/>
+  <text x="320" y="550" fill="#1E293B" font-family="Inter, sans-serif" font-size="16" font-weight="700">Calcul Mental - CM1</text>
+  <text x="320" y="575" fill="#94A3B8" font-family="Inter, sans-serif" font-size="14">Générée il y a 2 heures</text>
+  
+  <rect x="880" y="535" width="120" height="40" rx="20" fill="white" stroke="#E2E8F0"/>
+  <text x="940" y="560" text-anchor="middle" fill="#64748B" font-family="Inter, sans-serif" font-size="13" font-weight="700">Ouvrir</text>
+</svg>

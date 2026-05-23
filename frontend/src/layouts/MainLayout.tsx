@@ -79,8 +79,12 @@ export default function MainLayout() {
                   : 'text-slate-500 hover:bg-slate-50 hover:text-slate-900'}
               `}
             >
-              <item.icon className={`mr-3 h-5 w-5 transition-transform group-hover:scale-110 ${isActive ? 'text-blue-600' : 'text-slate-400 group-hover:text-blue-500'}`} />
-              {item.label}
+              {({ isActive }) => (
+                <>
+                  <item.icon className={`mr-3 h-5 w-5 transition-transform group-hover:scale-110 ${isActive ? 'text-blue-600' : 'text-slate-400 group-hover:text-blue-500'}`} />
+                  {item.label}
+                </>
+              )}
             </NavLink>
           ))}
         </nav>

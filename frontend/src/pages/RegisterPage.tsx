@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Button } from '../components/Button';
-import { Phone, Lock, User, School, ArrowRight, CheckCircle2, Sparkles } from 'lucide-react';
+import { Phone, Lock, User, School, ArrowRight, CheckCircle2 } from 'lucide-react';
 import { useNavigate, Link } from 'react-router-dom';
 
 export default function RegisterPage() {

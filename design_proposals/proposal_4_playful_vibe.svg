@@ -1,0 +1,44 @@
+<svg width="1200" height="800" viewBox="0 0 1200 800" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Background with subtle pattern -->
+  <rect width="1200" height="800" fill="#F0F9FF"/>
+  <circle cx="1100" cy="100" r="200" fill="#3B82F6" fill-opacity="0.05"/>
+  <circle cx="100" cy="700" r="150" fill="#10B981" fill-opacity="0.05"/>
+
+  <!-- Main App Container -->
+  <rect x="60" y="60" width="1080" height="680" rx="48" fill="white" shadow="0 25px 50px -12px rgba(0,0,0,0.1)"/>
+  
+  <!-- Top Navigation (Floating Style) -->
+  <rect x="100" y="90" width="1000" height="80" rx="24" fill="#F8FAFC" stroke="#F1F5F9"/>
+  <rect x="130" y="110" width="40" height="40" rx="12" fill="#3B82F6"/>
+  <text x="185" y="136" fill="#1E293B" font-family="Inter, sans-serif" font-size="22" font-weight="900">FichePro</text>
+  
+  <rect x="850" y="105" width="220" height="50" rx="16" fill="#3B82F6"/>
+  <text x="960" y="136" text-anchor="middle" fill="white" font-family="Inter, sans-serif" font-size="16" font-weight="700">Nouvelle Fiche +</text>
+
+  <!-- Left Sidebar (Iconic) -->
+  <rect x="100" y="190" width="80" height="520" rx="24" fill="#F8FAFC"/>
+  <rect x="115" y="215" width="50" height="50" rx="15" fill="#3B82F6" fill-opacity="0.1"/>
+  <rect x="115" y="285" width="50" height="50" rx="15" fill="white"/>
+  <rect x="115" y="355" width="50" height="50" rx="15" fill="white"/>
+  <rect x="115" y="635" width="50" height="50" rx="15" fill="#EF4444" fill-opacity="0.1"/>
+
+  <!-- Hero Content -->
+  <text x="220" y="250" fill="#0F172A" font-family="Inter, sans-serif" font-size="40" font-weight="900">Bonjour, M. Saliou 👋</text>
+  <text x="220" y="285" fill="#64748B" font-family="Inter, sans-serif" font-size="18">Prêt à transformer vos idées en cours mémorables ?</text>
+
+  <!-- Cards Grid -->
+  <rect x="220" y="340" width="430" height="370" rx="32" fill="#EFF6FF" stroke="#DBEAFE" stroke-width="2"/>
+  <text x="260" y="390" fill="#1E40AF" font-family="Inter, sans-serif" font-size="20" font-weight="800">Générateur IA v2.0</text>
+  <rect x="260" y="420" width="350" height="180" rx="20" fill="white" fill-opacity="0.6"/>
+  <text x="435" y="515" text-anchor="middle" fill="#3B82F6" font-family="Inter, sans-serif" font-size="14" font-weight="600">Saisissez votre thème ici...</text>
+  <rect x="260" y="620" width="350" height="60" rx="20" fill="#3B82F6"/>
+  <text x="435" y="656" text-anchor="middle" fill="white" font-family="Inter, sans-serif" font-size="16" font-weight="800">Magie ! ✨</text>
+
+  <rect x="680" y="340" width="420" height="170" rx="32" fill="#ECFDF5" stroke="#D1FAE5" stroke-width="2"/>
+  <text x="720" y="390" fill="#065F46" font-family="Inter, sans-serif" font-size="20" font-weight="800">Fiches archivées</text>
+  <text x="720" y="420" fill="#059669" font-family="Inter, sans-serif" font-size="32" font-weight="900">124</text>
+  
+  <rect x="680" y="540" width="420" height="170" rx="32" fill="#FFFBEB" stroke="#FEF3C7" stroke-width="2"/>
+  <text x="720" y="590" fill="#92400E" font-family="Inter, sans-serif" font-size="20" font-weight="800">Temps gagné</text>
+  <text x="720" y="620" fill="#D97706" font-family="Inter, sans-serif" font-size="32" font-weight="900">42h</text>
+</svg>
