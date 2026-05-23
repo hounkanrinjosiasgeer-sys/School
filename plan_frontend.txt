@@ -1,0 +1,27 @@
+# Plan d'Initialisation du Frontend
+
+Ce plan détaille les étapes pour mettre en place le frontend de l'application FichePro Bénin.
+
+## Pile Technique
+- Framework : React (via Vite)
+- Langage : TypeScript
+- Styling : Tailwind CSS
+- Routage : React Router
+- Icones : Lucide React
+
+## Étapes d'implémentation
+1. Initialisation du Projet avec Vite.
+2. Configuration de Tailwind CSS.
+3. Mise en place de la structure des dossiers (components, pages, layouts, etc.).
+4. Configuration du Routage (React Router).
+5. Création des composants de base (Button, Input).
+
+## Routes à configurer
+- / : Accueil
+- /login : Connexion
+- /register : Inscription
+- /dashboard : Tableau de bord
+- /generate : Création de fiche
+- /editor/:id : Éditeur
+- /library : Bibliothèque
+- /profile : Profil

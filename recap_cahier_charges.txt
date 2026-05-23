@@ -1,0 +1,26 @@
+# Synthèse du Projet FichePro Bénin
+
+## Projet
+- Nom : FichePro Bénin (SaaS EdTech)
+- Cible : Enseignants du primaire au Bénin (60 000 instituteurs).
+- Objectif : Génération automatique de fiches de préparation de cours conformes au format officiel du MEMP via l'IA.
+
+## Problèmes Résolus
+- Réduction du temps de rédaction (de 1-2h à moins de 30s).
+- Standardisation selon les normes de l'inspection.
+- Centralisation et sauvegarde cloud des fiches.
+
+## Fonctionnalités Clés (MVP)
+1. Authentification : Par numéro de téléphone (OTP SMS) ou email.
+2. Génération de Fiches : Formulaire simple (classe, matière, thème, durée) -> Fiche complète.
+3. Éditeur de Fiche : Modification manuelle, ajout/suppression, régénération de sections.
+4. Exercices & Devoirs : Génération auto liée au cours.
+5. Bibliothèque : Gestion, recherche et duplication des fiches.
+6. Export PDF : Prêt pour impression noir et blanc, partage WhatsApp.
+7. Paiement : Abonnement 2 000 FCFA / mois via Mobile Money.
+
+## Stack Technique
+- Frontend : React + Tailwind CSS (PWA).
+- Backend : Node.js ou FastAPI + PostgreSQL.
+- IA : Claude ou GPT-4o.
+- Paiement : FedaPay ou CinetPay.
