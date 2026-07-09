@@ -73,22 +73,14 @@ export default function GeneratePage() {
     setLoading(true);
     setResult('');
     setExercises('');
-    
-    const prompt = `Génère une fiche de préparation de cours détaillée pour une classe de ${formData.level} au Bénin.
-    Matière: ${formData.subject}
-    Thème du cours: ${formData.topic}
-    Durée: ${formData.duration}
-    
-    La fiche doit respecter le format officiel MEMP (Ministère des Enseignements Maternel et Primaire) avec:
-    1. Objectifs pédagogiques
-    2. Matériel nécessaire
-    3. Déroulement de la séance (Introduction, Développement, Synthèse/Conclusion)
-    4. Evaluation des acquis.
-    
-    Rédige en français, avec un ton professionnel et pédagogique adapté au contexte béninois.`;
 
     try {
-      const generatedText = await generateLessonPlan(prompt);
+      const generatedText = await generateLessonPlan({
+        level: formData.level,
+        subject: formData.subject,
+        topic: formData.topic,
+        duration: formData.duration,
+      });
       setResult(generatedText);
     } catch (error) {
       alert("Erreur lors de la génération. Vérifiez votre clé API.");
